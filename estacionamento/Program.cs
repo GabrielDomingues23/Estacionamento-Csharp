@@ -9,8 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=estacionamento.db"));
 
-builder.Services.AddScoped<EstadiaRepository>();
-
+builder.Services.AddScoped<IEstadiaRepository, EstadiaRepository>();
+builder.Services.AddScoped<ICarroRepository, CarroRepository>();
+builder.Services.AddScoped<IVagaRepository, VagaRepository>();
 var app = builder.Build();
 
 app.UseHttpsRedirection();
