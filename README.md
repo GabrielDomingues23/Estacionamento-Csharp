@@ -76,7 +76,7 @@ dotnet run
 Após rodar, a API estará disponível em:
 
 ```bash
-https://localhost:xxxx/api/estadia
+https://localhost:xxxx/api/estacionamento/
 ```
 
 ---
@@ -111,5 +111,32 @@ Data/           → DbContext (Entity Framework)
 
 * O banco utilizado é SQLite (arquivo local)
 * Não é necessário instalar servidor de banco de dados
+---
+
+Necessário arrumar:
+* ao listar vagas, aparecer se a vaga está aberta ou ocupada
+* caso ocupada listar placa e modelo do carro
+* deixar os campos de placa e modelo do carro como obrigatório
+
 
 ---
+Lista das URL´s
+
+Ver vagas:GET https://localhost:xxxx/api/estacionamento/vagas
+Criar vagas: 
+Post https://localhost:xxxx/api/estacionamento/vagas
+Body: {
+    "numeroVaga": "..."
+    "status":0 
+}
+Criar/ocupar vaga:
+Post http://localhost:5132/api/estacionamento/entrada/id_vaga (use o get vagas para ver a ID da vaga que quer adicionar apague o id_entrada e coloque a id, exemplo http://localhost:5132/api/estacionamento/entrada/1)
+body:{
+    "Placa":"xx-123"
+    "Marca":"cavalo"
+    "Modelo":"unicornio"
+} 
+
+Retirar um carro de uma vaga:
+Put http://localhost:5132/api/estacionamento/saida/id_vaga
+
