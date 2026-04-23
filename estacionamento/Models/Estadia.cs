@@ -13,7 +13,7 @@ public class Estadia
     public DateTime DataEntrada { get; set; }
     public DateTime? DataSaida { get; set; }
 
-    public double ValorCobrado { get; set; }
+    public decimal ValorCobrado { get; set; }
 
     public StatusEstadia Status { get; set; }
 }

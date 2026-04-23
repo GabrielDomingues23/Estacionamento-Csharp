@@ -1,0 +1,57 @@
+using Microsoft.AspNetCore.Mvc;
+using EstacionamentoAPI.Models;
+using EstacionamentoAPI.Repositories;
+
+namespace EstacionamentoAPI.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class EstacionamentoController : ControllerBase {
+    private readonly ICarroRepository _repository;
+    private const decimal PrecoHora = 12.50m;
+
+    public EstacionamentoController(ICarroRepository repository) => _repository = repository;
+
+    [HttpGet("vagas")]
+    public async Task<IActionResult> GetVagas() => Ok(await _repository.ListarTodasVagas());
+
+    [HttpPost("entrada/{vagaId}")] 
+    public async Task<IActionResult> EntradaCarro(int vagaId, [FromBody] Carro novoCarro) {
+        var vaga = await _repository.ObterVagaPorId(vagaId);
+        
+        if (vaga == null) return NotFound("Vaga inexistente.");
+        if (vaga.Status == StatusEstadia.Ocupada) return BadRequest("Esta vaga já possui um carro.");
+
+        vaga.Carro = novoCarro;
+        vaga.Status = StatusEstadia.Ocupada;
+        vaga.HoraEntrada = DateTime.Now;
+
+        await _repository.AtualizarVaga(vaga!);
+        return Ok($"Carro {novoCarro.Placa} estacionado com sucesso.");
+    }
+
+    [HttpPut("saida/{vagaId}")] // PUT (Atualizar e Calcular) [cite: 44, 56]
+    public async Task<IActionResult> SaidaCarro(int vagaId) {
+        var vaga = await _repository.ObterVagaPorId(vagaId);
+        
+        if (vaga == null || vaga.Status != StatusEstadia.Ocupada) 
+            return BadRequest("Vaga está vazia ou não existe.");
+
+        // Lógica de Cálculo de Negócio (Requisito 56)
+        var permanencia = DateTime.Now - vaga.HoraEntrada!.Value;
+        var totalHoras = Math.Ceiling(permanencia.TotalHours);
+        var valorPagar = (decimal)totalHoras * PrecoHora;
+
+        vaga.Status = StatusEstadia.Livre;
+        vaga.Carro = null;
+        vaga.HoraEntrada = null;
+
+        await _repository.AtualizarVaga(vaga!);
+
+        return Ok(new {
+            Mensagem = "Saída processada",
+            HorasEstacionado = totalHoras,
+            ValorTotal = valorPagar.ToString("C")
+        });
+    }
+}
