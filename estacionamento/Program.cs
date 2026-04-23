@@ -11,7 +11,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IEstadiaRepository, EstadiaRepository>();
 builder.Services.AddScoped<ICarroRepository, CarroRepository>();
-
+builder.Services.AddScoped<IVagaRepository, VagaRepository>();
 var app = builder.Build();
 
 app.UseHttpsRedirection();

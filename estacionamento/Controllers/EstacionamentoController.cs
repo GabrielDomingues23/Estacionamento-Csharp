@@ -8,13 +8,26 @@ namespace EstacionamentoAPI.Controllers;
 [Route("api/[controller]")]
 public class EstacionamentoController : ControllerBase {
     private readonly ICarroRepository _repository;
+    private readonly IVagaRepository _vagaRepository; // 1. Declare o campo
     private const decimal PrecoHora = 12.50m;
 
-    public EstacionamentoController(ICarroRepository repository) => _repository = repository;
+    // 2. Adicione ao construtor
+    public EstacionamentoController(ICarroRepository repository, IVagaRepository vagaRepository) {
+        _repository = repository;
+        _vagaRepository = vagaRepository;
+    }
 
     [HttpGet("vagas")]
     public async Task<IActionResult> GetVagas() => Ok(await _repository.ListarTodasVagas());
 
+    [HttpPost("vagas")]
+    public async Task<IActionResult> CriarVaga([FromBody] Vaga novaVaga) {
+        if (string.IsNullOrEmpty(novaVaga.NumeroVaga)) return BadRequest("Número da vaga é obrigatório.");
+        
+        // 3. Use a instância injetada (_vagaRepository)
+        await _vagaRepository.Adicionar(novaVaga); 
+        return Ok(new { Mensagem = "Vaga criada com sucesso!", Vaga = novaVaga });
+    }
     [HttpPost("entrada/{vagaId}")] 
     public async Task<IActionResult> EntradaCarro(int vagaId, [FromBody] Carro novoCarro) {
         var vaga = await _repository.ObterVagaPorId(vagaId);
