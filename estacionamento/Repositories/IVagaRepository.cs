@@ -9,6 +9,7 @@ public interface IVagaRepository
     Task<Vaga?> ObterPorId(int id);
     Task Adicionar(Vaga vaga);
     Task Atualizar(Vaga vaga);
+    Task Deletar(int id);
 }
 
 
@@ -37,6 +38,17 @@ public class VagaRepository : IVagaRepository
     public async Task Atualizar(Vaga vaga)
     {
         _context.Vagas.Update(vaga);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task Deletar(int id)
+    {
+        var vaga = await _context.Vagas.FindAsync(id);
+
+        if (vaga == null)
+            return;
+
+        _context.Vagas.Remove(vaga);
         await _context.SaveChangesAsync();
     }
 }

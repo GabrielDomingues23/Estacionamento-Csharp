@@ -21,13 +21,26 @@ public class EstacionamentoController : ControllerBase {
     public async Task<IActionResult> GetVagas() => Ok(await _repository.ListarTodasVagas());
 
     [HttpPost("vagas")]
-    public async Task<IActionResult> CriarVaga([FromBody] Vaga novaVaga) {
+    public async Task<IActionResult> CriarVaga([FromBody] Vaga novaVaga)
+    {
         if (string.IsNullOrEmpty(novaVaga.NumeroVaga)) return BadRequest("Número da vaga é obrigatório.");
-        
+
         // 3. Use a instância injetada (_vagaRepository)
-        await _vagaRepository.Adicionar(novaVaga); 
+        await _vagaRepository.Adicionar(novaVaga);
         return Ok(new { Mensagem = "Vaga criada com sucesso!", Vaga = novaVaga });
     }
+    
+    [HttpGet("vagas/{id}")]
+    public async Task<IActionResult> GetVagaPorId(int id)
+    {
+        var vaga = await _repository.ObterVagaPorId(id);
+
+        if (vaga == null)
+            return NotFound("Vaga não encontrada");
+
+        return Ok(vaga);
+    }
+
     [HttpPost("entrada/{vagaId}")] 
     public async Task<IActionResult> EntradaCarro(int vagaId, [FromBody] Carro novoCarro) {
         var vaga = await _repository.ObterVagaPorId(vagaId);
@@ -44,10 +57,11 @@ public class EstacionamentoController : ControllerBase {
     }
 
     [HttpPut("saida/{vagaId}")] // PUT (Atualizar e Calcular) [cite: 44, 56]
-    public async Task<IActionResult> SaidaCarro(int vagaId) {
+    public async Task<IActionResult> SaidaCarro(int vagaId)
+    {
         var vaga = await _repository.ObterVagaPorId(vagaId);
-        
-        if (vaga == null || vaga.Status != StatusEstadia.Ocupada) 
+
+        if (vaga == null || vaga.Status != StatusEstadia.Ocupada)
             return BadRequest("Vaga está vazia ou não existe.");
 
         // Lógica de Cálculo de Negócio (Requisito 56)
@@ -61,10 +75,26 @@ public class EstacionamentoController : ControllerBase {
 
         await _repository.AtualizarVaga(vaga!);
 
-        return Ok(new {
+        return Ok(new
+        {
             Mensagem = "Saída processada",
             HorasEstacionado = totalHoras,
             ValorTotal = valorPagar.ToString("C")
         });
+    }
+    
+    [HttpDelete("vagas/{id}")]
+    public async Task<IActionResult> DeleteVaga(int id)
+    {
+        var vaga = await _repository.ObterVagaPorId(id);
+
+        if (vaga == null)
+            return NotFound("Vaga não encontrada");
+
+        if (vaga.Status == StatusEstadia.Ocupada)
+            return BadRequest("Não é possível deletar uma vaga ocupada");
+
+        await _vagaRepository.Deletar(id);
+        return NoContent();
     }
 }

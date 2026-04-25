@@ -2503,24 +2503,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\amep_admin\\.nuget\\packages\\": {}
+    "/home/thiago/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\amep_admin\\Desktop\\projeto c#\\Estacionamento-Csharp\\estacionamento\\estacionamento.csproj",
+      "projectUniqueName": "/home/thiago/Área de trabalho/estudo/Estacionamento-Csharp/estacionamento/estacionamento.csproj",
       "projectName": "estacionamento",
-      "projectPath": "C:\\Users\\amep_admin\\Desktop\\projeto c#\\Estacionamento-Csharp\\estacionamento\\estacionamento.csproj",
-      "packagesPath": "C:\\Users\\amep_admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\amep_admin\\Desktop\\projeto c#\\Estacionamento-Csharp\\estacionamento\\obj\\",
+      "projectPath": "/home/thiago/Área de trabalho/estudo/Estacionamento-Csharp/estacionamento/estacionamento.csproj",
+      "packagesPath": "/home/thiago/.nuget/packages/",
+      "outputPath": "/home/thiago/Área de trabalho/estudo/Estacionamento-Csharp/estacionamento/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\amep_admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/thiago/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2539,7 +2540,7 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.200"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net10.0": {
@@ -2583,7 +2584,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.203/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
