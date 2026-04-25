@@ -1,142 +1,69 @@
-API desenvolvida em **ASP.NET Web API com C#**, com o objetivo de gerenciar um estacionamento simples, incluindo controle de vagas, entrada e saída de veículos.
+# API de Gerenciamento de Estacionamento
 
----
+API desenvolvida em ASP.NET Web API com C# para realizar o controle de um estacionamento simples, permitindo a gestão de vagas e o registro de entrada e saída de veículos.
 
-## Tecnologias utilizadas
+## Execução do Projeto
 
-* .NET (ASP.NET Web API)
-* Entity Framework Core
-* SQLite
-* C#
+1.  **Clonar o repositório**
 
----
+    Execute o comando `git clone https://github.com/GabrielDomingues23/Estacionamento-Csharp.git` e acesse a pasta do projeto com `cd Estacionamento-Csharp/estacionamento`.
 
-## Pré-requisitos
+2.  **Restaurar dependências**
 
-Antes de rodar o projeto, você precisa ter instalado:
+    Utilize o comando `dotnet restore` para baixar os pacotes necessários.
 
-* [.NET SDK](https://dotnet.microsoft.com/download)
-* Git
+3.  **Configurar Banco de Dados**
 
----
+    Certifique-se de ter a ferramenta do Entity Framework instalada (`dotnet tool install --global dotnet-ef`). Em seguida, execute `dotnet ef database update` para aplicar as migrations e gerar o arquivo `estacionamento.db`.
 
-## Como rodar o projeto
+4.  **Iniciar a API**
 
-### 1. Clonar o repositório
+    Execute o comando `dotnet run`. A aplicação ficará disponível no endereço indicado no terminal (`http://localhost:xxxx`).
 
-```bash
-git clone <LINK_DO_REPOSITORIO>
-cd Estacionamento-Csharp/estacionamento
-```
+## Endpoints Disponíveis
 
----
+### Vagas
 
-### 2. Restaurar dependências
+**Listar todas as vagas**
 
-```bash
-dotnet restore
-```
+`GET /api/estacionamento/vagas`
 
----
+**Obter vaga por ID**
 
-### 3. Instalar ferramenta do Entity Framework (caso necessário)
+`GET /api/estacionamento/vagas/{id}`
 
-```bash
-dotnet tool install --global dotnet-ef
-```
+**Criar nova vaga**
 
-Se já tiver instalado, pode pular.
+`POST /api/estacionamento/vagas`
 
----
-
-### 4. Aplicar migrations (criar banco de dados)
-
-```bash
-dotnet ef database update
-```
-
-Isso vai gerar o arquivo:
-
-```bash
-estacionamento.db
-```
-
----
-
-### 5. Rodar a API
-
-```bash
-dotnet run
-```
-
----
-
-## Acessando a API
-
-Após rodar, a API estará disponível em:
-
-```bash
-https://localhost:xxxx/api/estacionamento/
-```
-
----
-
-## Estrutura do projeto
+JSON
 
 ```
-Controllers/    → Endpoints da API
-Models/         → Entidades do sistema
-Repositories/   → Acesso ao banco de dados
-Data/           → DbContext (Entity Framework)
-```
-
----
-
-## Funcionalidades atuais
-
-* Listar estadias (GET /api/estadia)
-
----
-
-## Próximas funcionalidades
-
-* Entrada de veículo
-* Saída de veículo
-* Controle automático de vagas
-* Cálculo de valor
-
----
-
-## 📝 Observações
-
-* O banco utilizado é SQLite (arquivo local)
-* Não é necessário instalar servidor de banco de dados
----
-
-Necessário arrumar:
-* ao listar vagas, aparecer se a vaga está aberta ou ocupada
-* caso ocupada listar placa e modelo do carro
-* deixar os campos de placa e modelo do carro como obrigatório
-
-
----
-Lista das URL´s
-
-Ver vagas:GET https://localhost:xxxx/api/estacionamento/vagas
-Criar vagas: 
-Post https://localhost:xxxx/api/estacionamento/vagas
-Body: {
-    "numeroVaga": "..."
-    "status":0 
+{
+  "numeroVaga": "A-01"
 }
-Criar/ocupar vaga:
-Post http://localhost:5132/api/estacionamento/entrada/id_vaga (use o get vagas para ver a ID da vaga que quer adicionar apague o id_entrada e coloque a id, exemplo http://localhost:5132/api/estacionamento/entrada/1)
-body:{
-    "Placa":"xx-123"
-    "Marca":"cavalo"
-    "Modelo":"unicornio"
-} 
+```
 
-Retirar um carro de uma vaga:
-Put http://localhost:5132/api/estacionamento/saida/id_vaga
+**Excluir vaga**
 
+`DELETE /api/estacionamento/vagas/{id}`
+
+### Movimentação
+
+**Entrada de veículo (Ocupar vaga)**
+
+`POST /api/estacionamento/entrada/{id_vaga}`
+
+JSON
+
+```
+{
+  "Placa": "ABC-1234",
+  "Marca": "Marca",
+  "Modelo": "Modelo"
+}
+```
+
+**Saída de veículo (Liberar vaga)**
+
+`PUT /api/estacionamento/saida/{id_vaga}`
