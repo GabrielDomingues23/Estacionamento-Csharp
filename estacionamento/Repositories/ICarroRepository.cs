@@ -20,8 +20,10 @@ public class CarroRepository : ICarroRepository {
     public async Task<Vaga?> ObterVagaPorId(int id) => 
         await _context.Vagas.Include(v => v.Carro).FirstOrDefaultAsync(v => v.Id == id);
 
-    public async Task AtualizarVaga(Vaga vaga) {
+    public async Task AtualizarVaga(Vaga vaga)
+    {
         _context.Vagas.Update(vaga);
         await _context.SaveChangesAsync();
     }
+    
 }
