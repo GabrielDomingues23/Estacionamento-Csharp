@@ -1,26 +1,62 @@
-API desenvolvida em **ASP.NET Web API com C#**, com o objetivo de gerenciar um estacionamento simples, incluindo controle de vagas, entrada e saída de veículos.
+# Estacionamento C# + React
+
+API desenvolvida em **ASP.NET Web API com C#** para gerenciar um estacionamento simples com controle de vagas, entrada e saída de veículos.
+
+---
+
+## Integrantes da equipe
+
+* Gabriel
+* Maria
+* João
+
+---
+
+## Descrição do sistema
+
+Este projeto combina uma Web API ASP.NET com Entity Framework Core e um frontend React criado com Vite. O backend expõe endpoints para listar vagas, criar vagas, registrar entrada e saída de carros, e gerencia o estado de cada vaga.
 
 ---
 
 ## Tecnologias utilizadas
 
-* .NET (ASP.NET Web API)
+* .NET 10
+* ASP.NET Web API
 * Entity Framework Core
 * SQLite
-* C#
+* JWT Authentication
+* React
+* Vite
+* Fetch API
 
 ---
 
-## Pré-requisitos
+## Autenticação JWT
 
-Antes de rodar o projeto, você precisa ter instalado:
+A API agora possui autenticação JWT.
 
-* [.NET SDK](https://dotnet.microsoft.com/download)
-* Git
+* Endpoint de login: `POST /api/estacionamento/login`
+* Credenciais de exemplo: `admin` / `password`
+* O frontend envia o token no cabeçalho `Authorization: Bearer {token}`
+* Endpoint protegido: `/api/estacionamento/vagas` e demais endpoints do controlador
+
+A autenticação gera um token JWT assinado com chave simétrica e valida o token em cada requisição protegida.
 
 ---
 
-## Como rodar o projeto
+## Endpoints principais
+
+* `POST /api/estacionamento/login`
+* `GET /api/estacionamento/vagas`
+* `POST /api/estacionamento/vagas`
+* `GET /api/estacionamento/vagas/{id}`
+* `POST /api/estacionamento/entrada/{vagaId}`
+* `PUT /api/estacionamento/saida/{vagaId}`
+* `DELETE /api/estacionamento/vagas/{id}`
+
+---
+
+## Como rodar o backend
 
 ### 1. Clonar o repositório
 
@@ -29,39 +65,23 @@ git clone <LINK_DO_REPOSITORIO>
 cd Estacionamento-Csharp/estacionamento
 ```
 
----
-
 ### 2. Restaurar dependências
 
 ```bash
 dotnet restore
 ```
 
----
-
-### 3. Instalar ferramenta do Entity Framework (caso necessário)
+### 3. Instalar o Entity Framework CLI (se necessário)
 
 ```bash
 dotnet tool install --global dotnet-ef
 ```
 
-Se já tiver instalado, pode pular.
-
----
-
-### 4. Aplicar migrations (criar banco de dados)
+### 4. Aplicar migrations
 
 ```bash
 dotnet ef database update
 ```
-
-Isso vai gerar o arquivo:
-
-```bash
-estacionamento.db
-```
-
----
 
 ### 5. Rodar a API
 
@@ -69,74 +89,36 @@ estacionamento.db
 dotnet run
 ```
 
+A API será exposta em `http://localhost:5132` e `https://localhost:7152`.
+
 ---
 
-## Acessando a API
-
-Após rodar, a API estará disponível em:
+## Como rodar o frontend
 
 ```bash
-https://localhost:xxxx/api/estacionamento/
+cd ../frontend
+npm install
+npm run dev
 ```
 
----
-
-## Estrutura do projeto
-
-```
-Controllers/    → Endpoints da API
-Models/         → Entidades do sistema
-Repositories/   → Acesso ao banco de dados
-Data/           → DbContext (Entity Framework)
-```
+O frontend React será servido pelo Vite em `http://localhost:5173`.
 
 ---
 
-## Funcionalidades atuais
+## Comunicação HTTP utilizada no frontend
 
-* Listar estadias (GET /api/estadia)
+O frontend consome a API usando `fetch` e faz requisições HTTP:
 
----
-
-## Próximas funcionalidades
-
-* Entrada de veículo
-* Saída de veículo
-* Controle automático de vagas
-* Cálculo de valor
+* `GET` para listar vagas
+* `POST` para criar vagas e registrar entrada
+* `PUT` para registrar saída
+* `DELETE` para remover vagas
 
 ---
 
-## 📝 Observações
+## Observações
 
-* O banco utilizado é SQLite (arquivo local)
-* Não é necessário instalar servidor de banco de dados
----
-
-Necessário arrumar:
-* ao listar vagas, aparecer se a vaga está aberta ou ocupada
-* caso ocupada listar placa e modelo do carro
-* deixar os campos de placa e modelo do carro como obrigatório
-
-
----
-Lista das URL´s
-
-Ver vagas:GET https://localhost:xxxx/api/estacionamento/vagas
-Criar vagas: 
-Post https://localhost:xxxx/api/estacionamento/vagas
-Body: {
-    "numeroVaga": "..."
-    "status":0 
-}
-Criar/ocupar vaga:
-Post http://localhost:5132/api/estacionamento/entrada/id_vaga (use o get vagas para ver a ID da vaga que quer adicionar apague o id_entrada e coloque a id, exemplo http://localhost:5132/api/estacionamento/entrada/1)
-body:{
-    "Placa":"xx-123"
-    "Marca":"cavalo"
-    "Modelo":"unicornio"
-} 
-
-Retirar um carro de uma vaga:
-Put http://localhost:5132/api/estacionamento/saida/id_vaga
+* O frontend React demonstra uso de componentes, `useState`, `useEffect`, renderização dinâmica, eventos e consumo de API.
+* O backend mantém entidades, regras de negócio, persistência e formatos de endpoint existentes.
+* A comunicação entre frontend e API é feita por HTTP com suporte a CORS.
 

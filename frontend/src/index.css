@@ -1,0 +1,159 @@
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #f0f4f8;
+  color: #1f2937;
+}
+
+.app-container {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header {
+  margin-bottom: 24px;
+}
+
+h1 {
+  margin: 0;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.form-card {
+  margin-bottom: 20px;
+}
+
+label,
+input,
+button {
+  display: block;
+}
+
+label {
+  margin-bottom: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+}
+
+button.button-secondary {
+  background: #475569;
+}
+
+.status {
+  color: #334155;
+  margin-top: 12px;
+}
+
+.info {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+th {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.actions-cell {
+  min-width: 320px;
+}
+
+.action-row {
+  display: grid;
+  gap: 10px;
+}
+
+.action-row input {
+  width: auto;
+}
+
+.action-row button {
+  width: 100%;
+}
+
+@media (min-width: 720px) {
+  .action-row {
+    grid-template-columns: 1fr 1fr 1fr auto auto;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  z-index: 20;
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  width: min(420px, 100%);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+  text-align: center;
+}
+
+.modal-card h3 {
+  margin-top: 0;
+}
+
+.modal-details {
+  margin-top: 12px;
+  color: #475569;
+}
+
+.modal-card button {
+  margin-top: 20px;
+  width: 100%;
+}

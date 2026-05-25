@@ -1,20 +1,47 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EstacionamentoAPI.Models;
 using EstacionamentoAPI.Repositories;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace EstacionamentoAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class EstacionamentoController : ControllerBase {
     private readonly ICarroRepository _repository;
-    private readonly IVagaRepository _vagaRepository; // 1. Declare o campo
+    private readonly IVagaRepository _vagaRepository;
     private const decimal PrecoHora = 12.50m;
+    private const string JwtKey = "EstacionamentoJwtSuperSecretKey123!";
 
-    // 2. Adicione ao construtor
     public EstacionamentoController(ICarroRepository repository, IVagaRepository vagaRepository) {
         _repository = repository;
         _vagaRepository = vagaRepository;
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginRequest request)
+    {
+        if (request == null || request.Username != "admin" || request.Password != "password")
+        {
+            return Unauthorized(new { Mensagem = "Credenciais inválidas" });
+        }
+
+        var claims = new[] { new Claim(ClaimTypes.Name, request.Username) };
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.UtcNow.AddHours(2),
+            signingCredentials: creds);
+
+        return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
     }
 
     [HttpGet("vagas")]
