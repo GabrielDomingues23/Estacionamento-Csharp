@@ -27,7 +27,13 @@ public class EstacionamentoController : ControllerBase {
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        if (request == null || request.Username != "admin" || request.Password != "password")
+        if (
+            request == null ||
+            !(
+                (request.Username == "admin" && request.Password == "password") ||
+                (request.Username == "palestino" && request.Password == "40028922")
+            )
+)
         {
             return Unauthorized(new { Mensagem = "Credenciais inválidas" });
         }
