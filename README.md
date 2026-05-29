@@ -7,8 +7,8 @@ API desenvolvida em **ASP.NET Web API com C#** para gerenciar um estacionamento 
 ## Integrantes da equipe
 
 * Gabriel
-* Maria
-* João
+* Thiago 
+* Jhonatan
 
 ---
 
