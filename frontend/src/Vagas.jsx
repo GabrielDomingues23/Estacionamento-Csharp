@@ -12,6 +12,7 @@ function Vagas({ token, onLogout, status, setStatus }) {
   const [newVaga, setNewVaga] = useState('');
   const [carroInputs, setCarroInputs] = useState({});
   const [modalInfo, setModalInfo] = useState(null);
+  const [searchId, setSearchId] = useState('');
 
   const apiRequest = async (path, method, body) => {
     const response = await fetch(`${API_BASE}${path}`, {
@@ -89,6 +90,23 @@ function Vagas({ token, onLogout, status, setStatus }) {
     }
   };
 
+  const buscarVagaPorId = async () => {
+  if (!searchId) {
+    fetchVagas();
+    return;
+  }
+
+  try {
+    const vaga = await apiRequest(`/vagas/${searchId}`, 'GET');
+    setVagas([vaga]);
+    setStatus('Vaga encontrada.');
+  } catch (err) {
+    console.error(err);
+    setStatus('Vaga não encontrada.');
+    setVagas([]);
+  }
+};
+
   const handleSaida = async (vagaId) => {
     try {
       const result = await apiRequest(`/saida/${vagaId}`, 'PUT');
@@ -147,6 +165,32 @@ function Vagas({ token, onLogout, status, setStatus }) {
           <button type="submit">Adicionar vaga</button>
         </form>
       </section>
+
+      <section className="form-card">
+          <h3>Pesquisar vaga</h3>
+
+          <input
+            type="number"
+            placeholder="Digite o ID da vaga"
+            value={searchId}
+            onChange={(e) => setSearchId(e.target.value)}
+          />
+
+          <button
+            type="button"
+            onClick={buscarVagaPorId}
+          >
+            Pesquisar
+          </button>
+
+          <button
+            type="button"
+            className="button-secondary"
+            onClick={fetchVagas}
+          >
+            Mostrar todas
+          </button>
+        </section>
 
       <section className="form-card">
         <p className="status">{status}</p>
