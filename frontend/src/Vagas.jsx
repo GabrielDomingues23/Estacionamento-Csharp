@@ -52,10 +52,6 @@ function Vagas({ token, onLogout, status, setStatus }) {
     }
   };
 
-  useEffect(() => {
-    fetchVagas();
-  }, []);
-
   const createVaga = async (event) => {
     event.preventDefault();
     if (!newVaga.trim()) {
