@@ -6,9 +6,9 @@ API desenvolvida em **ASP.NET Web API com C#** para gerenciar um estacionamento 
 
 ## Integrantes da equipe
 
-* Gabriel
-* Thiago
-* Jhonatan
+* Gabriel Domingues
+* Thiago Palestino
+* Jhonatan Mendes
 
 ---
 
