@@ -17,6 +17,11 @@ public class EstacionamentoController : ControllerBase {
     private readonly IVagaRepository _vagaRepository;
     private const decimal PrecoHora = 12.50m;
     private const string JwtKey = "EstacionamentoJwtSuperSecretKey123!";
+    private static readonly List<LoginRequest> _users = new()
+    {
+        new() { Username = "admin", Password = "password" },
+        new() { Username = "palestino", Password = "40028922" },
+    };
 
     public EstacionamentoController(ICarroRepository repository, IVagaRepository vagaRepository) {
         _repository = repository;
@@ -27,18 +32,21 @@ public class EstacionamentoController : ControllerBase {
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        if (
-            request == null ||
-            !(
-                (request.Username == "admin" && request.Password == "password") ||
-                (request.Username == "palestino" && request.Password == "40028922")
-            )
-)
+        if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
         {
             return Unauthorized(new { Mensagem = "Credenciais inválidas" });
         }
 
-        var claims = new[] { new Claim(ClaimTypes.Name, request.Username) };
+        var user = _users.FirstOrDefault(u =>
+            string.Equals(u.Username, request.Username, StringComparison.OrdinalIgnoreCase) &&
+            u.Password == request.Password);
+
+        if (user == null)
+        {
+            return Unauthorized(new { Mensagem = "Credenciais inválidas" });
+        }
+
+        var claims = new[] { new Claim(ClaimTypes.Name, user.Username) };
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -48,6 +56,29 @@ public class EstacionamentoController : ControllerBase {
             signingCredentials: creds);
 
         return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+    }
+
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public IActionResult Register([FromBody] LoginRequest request)
+    {
+        if (request == null || string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+        {
+            return BadRequest(new { Mensagem = "Nome de usuário e senha são obrigatórios" });
+        }
+
+        if (_users.Any(u => string.Equals(u.Username, request.Username, StringComparison.OrdinalIgnoreCase)))
+        {
+            return Conflict(new { Mensagem = "Nome de usuário em uso" });
+        }
+
+        _users.Add(new LoginRequest
+        {
+            Username = request.Username,
+            Password = request.Password,
+        });
+
+        return Ok(new { Mensagem = "Conta criada com sucesso" });
     }
 
     [HttpGet("vagas")]

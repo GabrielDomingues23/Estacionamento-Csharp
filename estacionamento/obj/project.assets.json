@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "Humanizer.Core/2.14.1": {
@@ -2811,29 +2811,29 @@
     ]
   },
   "packageFolders": {
-    "/home/thiago/.nuget/packages/": {}
+    "C:\\Users\\gabrieldomingues\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/thiago/Área de trabalho/estudo/Estacionamento-Csharp/estacionamento/estacionamento.csproj",
+      "projectUniqueName": "C:\\Users\\gabrieldomingues\\Desktop\\Estacionamento-Csharp\\estacionamento\\estacionamento.csproj",
       "projectName": "estacionamento",
-      "projectPath": "/home/thiago/Área de trabalho/estudo/Estacionamento-Csharp/estacionamento/estacionamento.csproj",
-      "packagesPath": "/home/thiago/.nuget/packages/",
-      "outputPath": "/home/thiago/Área de trabalho/estudo/Estacionamento-Csharp/estacionamento/obj/",
+      "projectPath": "C:\\Users\\gabrieldomingues\\Desktop\\Estacionamento-Csharp\\estacionamento\\estacionamento.csproj",
+      "packagesPath": "C:\\Users\\gabrieldomingues\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\gabrieldomingues\\Desktop\\Estacionamento-Csharp\\estacionamento\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/thiago/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\gabrieldomingues\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -2848,10 +2848,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
@@ -2896,7 +2897,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.107/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

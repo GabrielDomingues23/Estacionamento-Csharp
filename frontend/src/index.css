@@ -26,6 +26,57 @@ h1 {
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
 }
 
+.login-panel {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.login-tab-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: #e2e8f0;
+  color: #1f2937;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.login-form h2 {
+  margin-top: 0;
+}
+
+.login-form label {
+  margin-bottom: 14px;
+}
+
+.login-form .register-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+label.invalid input {
+  border-color: #dc2626;
+}
+
+.error-message {
+  margin-top: 12px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
